@@ -2,15 +2,15 @@ const mysql = require('mysql2/promise');
 require('dotenv').config()
 
 const {
-  HOSTNAME: host,
-  USERNAME: user,
-  PASSWORD: password,
-  DATABASE: database
+  DB_HOST,
+  DB_USER,
+  DB_PASSWORD,
+  DATABASE
 } = process.env;
 
 const connectDb = async (req, res, next) => {
   try {
-    req.conn = await mysql.createConnection({ host, user, password, database })
+    req.conn = await mysql.createConnection(`mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DATABASE}`)
     next()
   }
   catch(e) {

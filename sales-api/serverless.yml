@@ -1,13 +1,29 @@
 service: sales-api
 frameworkVersion: '3'
 
+custom:
+  STAGE: ${self:provider.stage} # 현재 스테이지 별로 데이터베이스 접속 정보를 달리하기 위함
+  DATABASE_CONFIG: ${file(./config/config.js):DATABASE_CONFIG} # config.js 에서 가져올 데이터 베이스 접속정보
+
 provider:
   name: aws
   runtime: nodejs14.x
+  stage: ${opt:stage, 'dev'}
   region: ap-northeast-2
+  environment:
+    STAGE: ${self:provider.stage}
+    DB_HOST: ${self:custom.DATABASE_CONFIG.${self:custom.STAGE}.DB_HOST}
+    DB_USER: ${self:custom.DATABASE_CONFIG.${self:custom.STAGE}.DB_USER}
+    DB_PASSWORD: ${self:custom.DATABASE_CONFIG.${self:custom.STAGE}.DB_PASSWORD}
+    DATABASE: ${self:custom.DATABASE_CONFIG.${self:custom.STAGE}.DATABASE}
+    TOPIC_ARN: "arn:aws:sns:ap-northeast-2:775385743817:stock_empty"
 
 functions:
   api:
     handler: handler.handler
     events:
       - httpApi: '*'
+
+plugins:
+  - serverless-offline
+  - serverless-ignore

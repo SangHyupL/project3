@@ -1,0 +1,15 @@
+service: stock-lambda
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ap-northeast-2
+
+functions:
+  stock:
+    handler: index.handler
+    events:
+      - sqs: arn:aws:sqs:ap-northeast-2:775385743817:stock_queue
+
+
