@@ -9,6 +9,8 @@ provider:
 functions:
   stock:
     handler: index.handler
+    environment:
+      increase_ENDPOINT: "https://qqd31dx6mj.execute-api.ap-northeast-2.amazonaws.com/product/donut"
     events:
       - sqs: arn:aws:sqs:ap-northeast-2:775385743817:stock_queue
 
