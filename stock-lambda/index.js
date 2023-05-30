@@ -14,7 +14,7 @@ module.exports.handler = async (event) => {
     const body = JSON.parse(record.body)
     const payload = {
       MessageGroupId: "stock-arrival-group",
-      MessageAttributeProductId: "CP-502101",
+      MessageAttributeProductId: body.MessageAttributes.ProductId.Value,
       MessageAttributeProductCnt: 5,
       MessageAttributeFactoryId: body.MessageAttributes.FactoryId.Value,
       MessageAttributeRequester: "sanghyup",
