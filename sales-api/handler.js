@@ -42,13 +42,13 @@ app.post("/checkout", connectDb, async (req, res, next) => {
         Subject: '부산도너츠 재고 부족',
         MessageAttributes: {
           ProductId: {
-            StringValue: product.product_id,
-            DataType: "String",
-          },
-          FactoryId: {
-            StringValue: "factory_01",
-            DataType: "String",
-          },
+              StringValue: req.body.MessageAttributeProductId,
+              DataType: "String",
+            },
+            FactoryId: {
+              StringValue: req.body.MessageAttributeFactoryId,
+              DataType: "String",
+            },
         },
         TopicArn: process.env.TOPIC_ARN
       }
